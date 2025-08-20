@@ -1,0 +1,67 @@
+name: create-fresh-branch
+on:
+  workflow_dispatch:
+    inputs:
+        new_name:
+          description: 'Name for new branch'
+          type: string
+          required: true
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+    permissions:
+        contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+        #Unix script below gets a list of all remote branches and formats it so it may be used later.
+        #Process breakdown in order of lines:
+        #1. Fetch all branches
+        #2. create variable for string to be assigned to named branch_list. List all branches on remote.
+        #3. Remove new line characters. 
+        #4. Remove all instances of origin/. 
+        #5. Remove all instaces of HEAD -> . 
+        #6. Remove all instances of main . (Don't want user to create/modify main branch.)
+        #7. Replace instances of double spaces between branch names with comma, space, and double quote. 
+        #8. Trim first 3 characters off string because of unwanted comma and space. 
+        #9. Add double quote to end of string and wrap in square brackets. 
+        #10. Echo string so it may be assigned to $GITHUB_OUTPUT and used later.
+
+      - name: Get branch list
+        id: get_branch_list
+        run: >
+          git fetch --all;
+          branch_list="$(git branch -r |
+          tr -d '\n' |
+          sed 's/origin\///g' |
+          sed 's/HEAD -> //g' |
+          sed 's/\ main\ //g' |
+          sed 's/\ \ /\"\,\ \"/g')";
+          branch_list="${branch_list:3}";
+          branch_list="[$branch_list\"]";
+          echo "branch_list=$branch_list" >> $GITHUB_OUTPUT
+      - name: Check if branch exists
+        if: contains(fromJson(steps.get_branch_list.outputs.branch_list), inputs.new_name)
+        uses: actions/github-script@v3
+        with:
+          script: core.setFailed('Branch already exists, name taken.')
+      - name: Set user
+        run: git config --global user.name "${{ github.actor }}"
+        #TODO TEST EMAIL
+      - name: Set email
+        run: git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+      - name: Create new branch 
+        run: git branch ${{ inputs.new_name }}
+      - name: Checkout new branch
+        run: git checkout ${{ inputs.new_name }}
+      - name: Delete dataflows, dataset, and pipeline
+        run: cd dataflow; rm *; ls; cd ..; cd dataset; rm *; ls; cd ..; cd pipeline; rm *; ls; cd ..
+      - name: Add .gitkeep to dataflows, dataset, and pipeline
+        run: cd dataflow; touch .gitkeep; ls; cd ..; cd dataset; touch .gitkeep; ls; cd ..; cd pipeline; touch .gitkeep; cd ..; ls
+      - name: Stage changes
+        run: git add --all
+      - name: Commit changes
+        run: git commit -m "Wiped pipeline, dataset, and dataflows folders"
+      - name: Push origin
+        run: git push -u origin ${{ inputs.new_name }}
