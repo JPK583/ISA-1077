@@ -32,7 +32,7 @@ jobs:
           cd '${{ inputs.TEMP_FILE_SRC }}/'; for PIPELINE in *.json; do
               ANNO_PRESENT="$(jq '.properties | has("annotations")' "$PIPELINE")"; if [ $ANNO_PRESENT == "true" ]; then
                   ENV_PRESENT="$(jq '.properties.annotations | contains(["${{ inputs.target_enviornment }}"])' "$PIPELINE")"; if [ $ENV_PRESENT == "true" ]; then
-                      echo "$PIPELINE is approved for TEMP_ENVIORNMENT"
+                      echo "$PIPELINE is approved for ${{ inputs.target_enviornment }}"
                   else
                       echo "$PIPELINE is NOT approved for ${{ inputs.target_enviornment }}. It will be removed."; echo "TEMP $PIPELINE"
                   fi
@@ -44,9 +44,9 @@ jobs:
         run: git config --global user.name "${{ github.actor }}"
       - name: Set email
         run: git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-      - name: Stage changes
-        run: git add --all
-      - name: Commit changes
-        run: git commit -m "Removed any unallowed pipelines."
-      - name: Push origin
-        run: git push -u origin #INSERT NAME OF CURRENT BRANCH
+      #- name: Stage changes
+      #  run: git add --all
+      #- name: Commit changes
+      #  run: git commit -m "Removed any unallowed pipelines."
+      #- name: Push origin
+      #  run: git push -u origin #INSERT NAME OF CURRENT BRANCH
