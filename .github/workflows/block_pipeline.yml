@@ -29,13 +29,13 @@ jobs:
         run: |
           for PIPELINE in *; do
               ANNO_PRESENT="$(jq '.properties | has("annotations")' "$PIPELINE")"; if [ $ANNO_PRESENT == "true" ]; then
-                  ENV_PRESENT="$(jq '.properties.annotations | contains(["TEMP_ENVIORNMENT"])' "$PIPELINE")"; if [ $ENV_PRESENT == "true" ]; then
+                  ENV_PRESENT="$(jq '.properties.annotations | contains([${{ inputs.target_enviornment }}])' "$PIPELINE")"; if [ $ENV_PRESENT == "true" ]; then
                       echo "$PIPELINE is approved for TEMP_ENVIORNMENT"
                   else
-                      echo "$PIPELINE is NOT approved for TEMP_ENVIORNMENT. It will be removed."; echo "TEMP $PIPELINE"
+                      echo "$PIPELINE is NOT approved for ${{ inputs.target_enviornment }}. It will be removed."; echo "TEMP $PIPELINE"
                   fi
               else
-                  echo "$PIPELINE is NOT approved for TEMP_ENVIORNMENT, and has no annotations. It will be removed."; echo "TEMP $PIPELINE"
+                  echo "$PIPELINE is NOT approved for ${{ inputs.target_enviornment }}, and has no annotations. It will be removed."; echo "TEMP $PIPELINE"
               fi
           done
       - name: Set user
