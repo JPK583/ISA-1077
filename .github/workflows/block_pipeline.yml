@@ -6,6 +6,10 @@ on:
         description: "TEMP desired enviornment project will be promoted to."
         type: string
         required: true
+      TEMP_FILE_SRC:
+        description: "TEMP directory where files are located."
+        type: string
+        required: true
 jobs:
   check-enviornment:
     runs-on: ubuntu-latest
@@ -22,12 +26,10 @@ jobs:
       - name: Download jq library
         run: sudo apt-get install jq
 
-      - name: Open pipeline directory
-        run: cd pipeline/
-
+      #TODO: TAKE OUT SPECIFYING DIRECTORY
       - name: TEMP NAME
         run: |
-          pwd; ls; for PIPELINE in *.json; do
+          cd '${{ inputs.TEMP_FILE_SRC }}/'; for PIPELINE in *.json; do
               ANNO_PRESENT="$(jq '.properties | has("annotations")' "$PIPELINE")"; if [ $ANNO_PRESENT == "true" ]; then
                   ENV_PRESENT="$(jq '.properties.annotations | contains([${{ inputs.target_enviornment }}])' "$PIPELINE")"; if [ $ENV_PRESENT == "true" ]; then
                       echo "$PIPELINE is approved for TEMP_ENVIORNMENT"
