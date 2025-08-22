@@ -23,7 +23,7 @@ jobs:
         run: sudo apt-get install jq
 
       - name: Open pipeline directory
-        run: pwd; ls; cd ..; pwd; ls; cd pipeline/; pwd
+        run: cd pipeline/
 
       - name: TEMP NAME
         run: |
