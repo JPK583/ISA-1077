@@ -7,7 +7,7 @@ on:
         type: string
         required: true
 jobs:
-  create-branch:
+  check-enviornment:
     runs-on: ubuntu-latest
     permissions:
         contents: write
@@ -23,7 +23,7 @@ jobs:
         run: sudo apt-get install jq
 
       - name: Open pipeline directory
-        run: pwd; ls; cd..; pwd; ls; cd pipeline/; pwd
+        run: pwd; ls; cd ..; pwd; ls; cd pipeline/; pwd
 
       - name: TEMP NAME
         run: |
