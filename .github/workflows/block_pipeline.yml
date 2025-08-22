@@ -1,0 +1,50 @@
+name: block-pipline
+on:
+  workflow_dispatch:
+    inputs:
+      target_enviornment:
+        description: "TEMP desired enviornment project will be promoted to."
+        type: string
+        required: true
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+    permissions:
+        contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: DEBUG list contents
+        run: ls  
+        #Find annotation
+
+      - name: Download jq library
+        run: sudo apt-get install jq
+
+      - name: Open pipeline directory
+        run: pwd; ls; cd..; pwd; ls; cd pipeline/; pwd
+
+      - name: TEMP NAME
+        run: |
+          for PIPELINE in *; do
+              ANNO_PRESENT="$(jq '.properties | has("annotations")' "$PIPELINE")"; if [ $ANNO_PRESENT == "true" ]; then
+                  ENV_PRESENT="$(jq '.properties.annotations | contains(["TEMP_ENVIORNMENT"])' "$PIPELINE")"; if [ $ENV_PRESENT == "true" ]; then
+                      echo "$PIPELINE is approved for TEMP_ENVIORNMENT"
+                  else
+                      echo "$PIPELINE is NOT approved for TEMP_ENVIORNMENT. It will be removed."; echo "TEMP $PIPELINE"
+                  fi
+              else
+                  echo "$PIPELINE is NOT approved for TEMP_ENVIORNMENT, and has no annotations. It will be removed."; echo "TEMP $PIPELINE"
+              fi
+          done
+      - name: Set user
+        run: git config --global user.name "${{ github.actor }}"
+      - name: Set email
+        run: git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+      - name: Stage changes
+        run: git add --all
+      - name: Commit changes
+        run: git commit -m "Removed any unallowed pipelines."
+      - name: Push origin
+        run: git push -u origin #INSERT NAME OF CURRENT BRANCH
