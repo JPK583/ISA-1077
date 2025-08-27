@@ -8,9 +8,9 @@ cd "$DIRECTORY/"; for OBJECT in *.json; do
         ENV_PRESENT="$(jq '.properties.annotations | contains(["$ENVIORNMENT"])' "$OBJECT")"; if [ $ENV_PRESENT == "true" ]; then
             echo "$OBJECT is approved for $ENVIORNMENT"
         else
-            echo "$OBJECT is NOT approved for $ENVIORNMENT. It will be ignored."; #mv "$OBJECT" "$OBJECT".ignore
+            echo "$OBJECT is NOT approved for $ENVIORNMENT. It will be ignored."; echo pwd
         fi
     else
-        echo "$OBJECT is NOT approved for $ENVIORNMENT, and has no annotations. It will be ignored."; #mv "$OBJECT" "$OBJECT".ignore
+        echo "$OBJECT is NOT approved for $ENVIORNMENT, and has no annotations. It will be ignored."; echo pwd
     fi
 done

@@ -7,7 +7,7 @@ on:
         type: string
         required: true
       feature_name:
-        description: "Directory name where files to be checked "
+        description: "The name of the feature where annotations will be checked."
         type: string
         required: true
 jobs:
@@ -18,14 +18,23 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Download jq library
         run: sudo apt-get install jq
-
       - name: Give permission
         run: chmod +x .github/workflows/verify_annotation.sh
+        #The code should look for ANY annotation in a pipeline. 
+        #IF it finds it, store the FOLDER name. 
+        #Then iterate all matching folder names across datasets 
+        #and data flows. What we do next is an open question. 
+        #Delete, mark the folder with something for 
+        #git actions to ignore
 
-      #TODO: TAKE OUT SPECIFYING DIRECTORY
+        #Step 1 go to pipeline folder
+      #- name: Access pipelines
+      #  run: cd pipeline
+        #Step 2 Iterate through folders and or files (THEY SHOULD BE FOLDERS BUT JUST HAVE A FAILSAFE)
+        #Step 3 Go into each folder run script to check annotations, if proper enviornment annotation not present IN ANY PIPELINE, store FOLDER (or maybe file) name.
+        #Step 4 add .ignore to any any folder which shares the name.
       - name: TEMP NAME
         run: .github/workflows/verify_annotation.sh ${{ inputs.target_enviornment }} ${{ inputs.feature_name }}
       - name: Set user
