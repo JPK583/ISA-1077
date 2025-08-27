@@ -28,7 +28,7 @@ jobs:
 
       #TODO: TAKE OUT SPECIFYING DIRECTORY
       - name: TEMP NAME
-        run: cd '${{ inputs.feature_name }}/'; ./.github/workflows/verify_annotation.sh ${{ inputs.target_enviornment }}
+        run: cd '${{ inputs.feature_name }}/'; .github/workflows/verify_annotation.sh ${{ inputs.target_enviornment }}
       #  run: |
       #    cd '${{ inputs.feature_name }}/'; for PIPELINE in *.json; do
       #        ANNO_PRESENT="$(jq '.properties | has("annotations")' "$PIPELINE")"; if [ $ANNO_PRESENT == "true" ]; then
