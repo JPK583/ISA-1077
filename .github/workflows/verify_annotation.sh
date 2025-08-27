@@ -1,8 +1,9 @@
 #!/bin/bash
 
 ENVIORNMENT=$1
+DIRECTORY=$2
 
-for OBJECT in *.json; do
+cd '$DIRECTORY/'; for OBJECT in *.json; do
     ANNO_PRESENT="$(jq '.properties | has("annotations")' "$OBJECT")"; if [ $ANNO_PRESENT == "true" ]; then
         ENV_PRESENT="$(jq '.properties.annotations | contains(["$ENVIORNMENT"])' "$OBJECT")"; if [ $ENV_PRESENT == "true" ]; then
             echo "$OBJECT is approved for $ENVIORNMENT"
