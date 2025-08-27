@@ -19,8 +19,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: DEBUG list contents
-        run: pwd; ls; cd ..; pwd; ls; cd ..; pwd; ls;
+      - name: DEBUG find script
+        run: find ~ -name "verify_annotation.sh"
         #Find annotation
 
       - name: Download jq library
