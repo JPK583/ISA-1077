@@ -19,12 +19,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: DEBUG find script
-        run: pwd; find ~ -name "verify_annotation.sh"
-        #Find annotation
-
       - name: Download jq library
         run: sudo apt-get install jq
+
+      - name: Give permission
+        run: chmod +x .github/workflows/verify_annotation.sh
 
       #TODO: TAKE OUT SPECIFYING DIRECTORY
       - name: TEMP NAME
