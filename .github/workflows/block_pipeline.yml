@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: DEBUG list contents
-        run: ls; pwd; cd ..; ls; pwd;
+        run: pwd; ls; cd ..; pwd; ls; cd ..; pwd; ls;
         #Find annotation
 
       - name: Download jq library
