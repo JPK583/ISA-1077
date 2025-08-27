@@ -28,18 +28,6 @@ jobs:
       #TODO: TAKE OUT SPECIFYING DIRECTORY
       - name: TEMP NAME
         run: .github/workflows/verify_annotation.sh ${{ inputs.target_enviornment }} ${{ inputs.feature_name }}
-      #  run: |
-      #    cd '${{ inputs.feature_name }}/'; for PIPELINE in *.json; do
-      #        ANNO_PRESENT="$(jq '.properties | has("annotations")' "$PIPELINE")"; if [ $ANNO_PRESENT == "true" ]; then
-      #            ENV_PRESENT="$(jq '.properties.annotations | contains(["${{ inputs.target_enviornment }}"])' "$PIPELINE")"; if [ $ENV_PRESENT == "true" ]; then
-      #                echo "$PIPELINE is approved for ${{ inputs.target_enviornment }}"
-      #            else
-      #                echo "$PIPELINE is NOT approved for ${{ inputs.target_enviornment }}. It will be removed."; echo "TEMP $PIPELINE"
-      #            fi
-      #        else
-      #            echo "$PIPELINE is NOT approved for ${{ inputs.target_enviornment }}, and has no annotations. It will be removed."; echo "TEMP $PIPELINE"
-      #        fi
-      #    done
       - name: Set user
         run: git config --global user.name "${{ github.actor }}"
       - name: Set email
