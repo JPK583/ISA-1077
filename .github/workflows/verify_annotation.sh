@@ -6,7 +6,7 @@ FEATURE=$3
 FEAT_ARRAY=()
 #FEAT_ARRAY+=("New_Path")
 
-pwd; echo $FEATURE
+echo $DIRECTORY; echo $FEATURE
 
 cd "$DIRECTORY/$FEATURE"; for OBJECT in *.json; do
     ANNO_PRESENT="$(jq '.properties | has("annotations")' "$OBJECT")"; if [ $ANNO_PRESENT == "true" ]; then
