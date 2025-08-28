@@ -31,7 +31,7 @@ jobs:
 
         #Step 1 go to pipeline folder
       - name: TEMP NAME
-        run: .github/workflows/verify_annotation.sh ${{ inputs.target_enviornment }} "pipeline" ${{ inputs.feature_name }} 
+        run: .github/workflows/verify_annotation.sh ${{ inputs.target_enviornment }} "pipeline" #${{ inputs.feature_name }} 
         #Step 2 Iterate through folders and or files (THEY SHOULD BE FOLDERS BUT JUST HAVE A FAILSAFE)
         #Step 3 Go into each folder run script to check annotations, if proper enviornment annotation not present IN ANY PIPELINE, store FOLDER (or maybe file) name.
         #Step 4 add .ignore to any any folder which shares the name.
