@@ -2,18 +2,15 @@
 
 ENVIORNMENT=$1
 DIRECTORY=$2
-
-#TEMP DEBUG
-echo pwd; echo $ENVIORNMENT; echo $DIRECTORY;
+DIR_ARRAY=()
+#DIR_ARRAY+=("New_Path")
 
 cd "$DIRECTORY"; for OBJECT in *.json; do
     ANNO_PRESENT="$(jq '.properties | has("annotations")' "$OBJECT")"; if [ $ANNO_PRESENT == "true" ]; then
         ENV_PRESENT="$(jq '.properties.annotations | contains(["$ENVIORNMENT"])' "$OBJECT")"; if [ $ENV_PRESENT == "true" ]; then
-            echo "$OBJECT is approved for $ENVIORNMENT"
-        else
-            echo "$OBJECT is NOT approved for $ENVIORNMENT. It will be ignored."; pwd
-        fi
-    else
-        echo "$OBJECT is NOT approved for $ENVIORNMENT, and has no annotations. It will be ignored."; pwd
-    fi
+            DIR_ARRAY+=(pwd); break
+done
+
+for PATH in DIR_ARRAY; do
+    echo PATH;
 done
