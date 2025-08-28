@@ -1,0 +1,8 @@
+{
+    "name": "dataflow_2",
+    "properties": {
+        "folder": {
+            "name": "dir2/subdir1"
+        }
+    }
+}

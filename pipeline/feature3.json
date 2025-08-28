@@ -86,8 +86,10 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "dir3/subdir1"
+		},
 		"annotations": [
-			"dev",
 			"prod"
 		]
 	}

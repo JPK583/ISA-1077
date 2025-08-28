@@ -5,6 +5,9 @@
 			"referenceName": "AzureDataLakeStorage1",
 			"type": "LinkedServiceReference"
 		},
+		"folder": {
+			"name": "dir1/subdir2"
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {

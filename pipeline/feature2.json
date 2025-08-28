@@ -86,8 +86,11 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "dir2/subdir1"
+		},
 		"annotations": [
-			"dev"
+			"qa"
 		]
 	}
 }
