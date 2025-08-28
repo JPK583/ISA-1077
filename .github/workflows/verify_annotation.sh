@@ -18,5 +18,5 @@ done
 echo "TEMP DIR_ARRAY:"
 
 for PATH in DIR_ARRAY; do
-    echo PATH;
+    echo $PATH;
 done
