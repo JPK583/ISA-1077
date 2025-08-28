@@ -28,5 +28,5 @@ done
 echo "TEMP FEAT_ARRAY:"
 
 for ITEM in "${FEAT_ARRAY[@]}"; do
-    echo $ITEM;
+    echo -e "$ITEM\n";
 done
