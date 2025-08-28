@@ -43,10 +43,22 @@ for ITEM in "${FEAT_ARRAY[@]}"; do
     echo $ITEM
 done
 
-FOLDER_ARRAY=("dataset" "dataflow")
+#FOLDER_ARRAY=("dataset" "dataflow")
+FOLDER_ARRAY=("dataset")
 
-for FOLDER in $FOLDER_ARRAY; do
+for FOLDER in "${FOLDER_ARRAY[@]}"; do
     cd $FOLDER
-    pwd
+    for OBJECT in *.json; do
+        FOLDER_PRESENT="$(jq '.properties | has("folder")' "$OBJECT")"
+        if [ "$FOLDER_PRESENT" == "true" ]; then
+            FEAT_NAME="$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\""
+            if [[ $FEAT_ARRAY[@] =~ $FEAT_NAME ]]; then
+                echo "TEMP FOLDER MATCHES! IGNORE $OBJECT, FEAT $FEAT_NAME" #NOTE TO FUTURE SELF NONE OF THE DATASETS HAVE DIR3 THIS WORKS
+            fi
+        else
+            echo "Do something here later"
+            #IF FOLDER IS NOT PRESENT CHECK TO SEE IF .json NAME IS INCLUDED IN FEAT_ARRAY HERE AND THEN IGNORE
+        fi
+    done
     cd ..
 done
