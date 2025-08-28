@@ -15,6 +15,8 @@ cd "$DIRECTORY"; for OBJECT in *.json; do
     fi
 done
 
+echo "TEMP DIR_ARRAY:"
+
 for PATH in DIR_ARRAY; do
     echo PATH;
 done
