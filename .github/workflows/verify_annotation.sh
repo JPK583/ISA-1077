@@ -5,7 +5,7 @@ DIRECTORY=$2
 DIR_ARRAY=()
 #DIR_ARRAY+=("New_Path")
 
-echo pwd; $DIRECTORY
+pwd; echo $DIRECTORY
 
 cd "$DIRECTORY"; for OBJECT in *.json; do
     ANNO_PRESENT="$(jq '.properties | has("annotations")' "$OBJECT")"; if [ $ANNO_PRESENT == "true" ]; then
