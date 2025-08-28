@@ -18,6 +18,6 @@ done
 
 echo "TEMP FEAT_ARRAY:"
 
-for PATH in "${FEAT_ARRAY[@]}"; do
-    echo $PATH;
+for ITEM in "${FEAT_ARRAY[@]}"; do
+    echo $ITEM;
 done
