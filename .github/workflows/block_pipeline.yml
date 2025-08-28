@@ -6,10 +6,10 @@ on:
         description: "TEMP desired enviornment project will be promoted to."
         type: string
         required: true
-      feature_name:
-        description: "The name of the feature where annotations will be checked."
-        type: string
-        required: true
+#      feature_name:
+#        description: "The name of the feature where annotations will be checked."
+#        type: string
+#        required: true
 jobs:
   check-enviornment:
     runs-on: ubuntu-latest
