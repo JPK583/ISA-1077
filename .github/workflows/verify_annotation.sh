@@ -3,61 +3,66 @@
 ENVIRONMENT=$1
 FEAT_ARRAY=()
 
-#TEMP directory is "pipeline"
-
-#echo $ENVIRONMENT; echo $DIRECTORY
+BROWN='\033[0;33m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+PURPLE='\033[0;35m'
+NC='\033[0m'
 
 cd "pipeline"
+
+echo -e "Checking pipeline file for ${PURPLE}$ENVIRONMENT${NC}."
 
 for OBJECT in *.json; do
     ANNO_PRESENT="$(jq '.properties | has("annotations")' "$OBJECT")"
     if [ "$ANNO_PRESENT" == "true" ]; then
         ENV_PRESENT="$(jq --arg env "$ENVIRONMENT" '.properties.annotations | contains([$env])' "$OBJECT")"
         if [ "$ENV_PRESENT" == "false" ]; then
+            #echo -e "${PURPLE}$ENVIRONMENT${NC} ${RED}NOT${NC} present in ${BROWN}$OBJECT${NC}. ${BROWN}$OBJECT${NC} it will be ignored."
+            echo -e "${BROWN}$OBJECT${NC} ${RED}NOT annotated as ready for${NC} ${PURPLE}$ENVIRONMENT${NC}${RED}.${NC}"
+            echo -e "${RED}This pipeline and any other item which shares it's name or is included in a folder which does will be ignored.${NC}"
             FEAT_ARRAY+=("$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\"")
-            echo "TEMP WRONG ENV IGNORE $OBJECT" #mv "$OBJECT" "$OBJECT.ignore"
+            #mv "$OBJECT" "$OBJECT.ignore"
         fi
     else
         FEAT_ARRAY+=("$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\"")
-        echo "TEMP NO ANNOTATION IGNORE $OBJECT" #mv "$OBJECT" "$OBJECT.ignore"
+        echo -e "${RED}Annotations field not present for${NC} ${BROWN}$OBJECT${NC}${RED}.${NC}"
+        echo -e "${BROWN}$OBJECT${NC} ${YELLOW}will be infered as not in${NC} ${PURPLE}$ENVIRONMENT${NC}${YELLOW} and ignored.${NC}"
+        #mv "$OBJECT" "$OBJECT.ignore"
     fi
 done
 cd ..
 
 #TODO I don't really like how this is done but if a I put in a check for dupes in the previous for loop it will have n^2 complexity and this is linear.
-#Remove duplicates
-
-echo "feat array"
-
-for ITEM in "${FEAT_ARRAY[@]}"; do
-    echo $ITEM
-done
 
 #UNIQUE ELEMENTS
-
-echo "unique feat array"
-
 FEAT_ARRAY=($(printf "%s\n" "${FEAT_ARRAY[@]}" | sort -u))
 
-for ITEM in "${FEAT_ARRAY[@]}"; do
-    echo $ITEM
+FOLDER_ARRAY=("dataset" "dataflow")
+
+echo -en "Checking following folders: "
+
+for LOCATION in "${FOLDER_ARRAY[@]}"; do
+    echo -en "${BROWN}$LOCATION${NC} "
 done
 
-#FOLDER_ARRAY=("dataset" "dataflow")
-FOLDER_ARRAY=("dataset")
+echo
 
 for FOLDER in "${FOLDER_ARRAY[@]}"; do
     cd $FOLDER
+    echo -e "Checking: ${PURPLE}$FOLDER${NC}."
     for OBJECT in *.json; do
         FOLDER_PRESENT="$(jq '.properties | has("folder")' "$OBJECT")"
         if [ "$FOLDER_PRESENT" == "true" ]; then
             FEAT_NAME="$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\""
-            if [[ $FEAT_ARRAY[@] =~ $FEAT_NAME ]]; then
-                echo "TEMP FOLDER MATCHES! IGNORE $OBJECT, FEAT $FEAT_NAME" #NOTE TO FUTURE SELF NONE OF THE DATASETS HAVE DIR3 THIS WORKS
-            fi
+            echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} located within ${BROWN}$FEAT_NAME${NC}."
         else
-            echo "Do something here later"
-            #IF FOLDER IS NOT PRESENT CHECK TO SEE IF .json NAME IS INCLUDED IN FEAT_ARRAY HERE AND THEN IGNORE
+            #FEAT_NAME="$(jq '.name' "$OBJECT" | cut -d '/' -f 1)"
+            FEAT_NAME=$OBJECT
+            echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} ${RED}NOT${NC} ${YELLOW}present in a folder${NC}. ${BROWN}$FEAT_NAME${NC} ${YELLOW}will be used instead.${NC}"
+        fi
+        if [[ ${FEAT_ARRAY[@]} =~ $FEAT_NAME ]]; then
+            echo -e "${BROWN}$FEAT_NAME${NC} ${RED}NOT marked ready for${NC} ${PURPLE}$ENVIRONMENT${NC} ${RED}it will be ignored.${NC}"
         fi
     done
     cd ..

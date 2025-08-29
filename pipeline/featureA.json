@@ -88,9 +88,6 @@
 		],
 		"folder": {
 			"name": "dir1/subdir2"
-		},
-		"annotations": [
-			"dev"
-		]
+		}
 	}
 }
