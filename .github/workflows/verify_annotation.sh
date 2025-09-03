@@ -54,13 +54,14 @@ for FOLDER in "${FOLDER_ARRAY[@]}"; do
         FOLDER_PRESENT="$(jq '.properties | has("folder")' "$OBJECT")"
         if [ "$FOLDER_PRESENT" == "true" ]; then
             FEAT_NAME="$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\""
-            echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} located within ${BROWN}$FEAT_NAME${NC}."
+            #echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} located within ${BROWN}$FEAT_NAME${NC}."
         else
             FEAT_NAME=$OBJECT
-            echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} ${RED}NOT${NC} ${YELLOW}present in a folder${NC}. ${BROWN}$FEAT_NAME${NC} ${YELLOW}will be used instead.${NC}"
+            #echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} ${RED}NOT${NC} ${YELLOW}present in a folder${NC}. ${BROWN}$FEAT_NAME${NC} ${YELLOW}will be used instead.${NC}"
         fi
+        echo "FEAT:$FEAT_NAME, OBJECT:$OBJECT"
         if [[ ${FEAT_ARRAY[@]} =~ $FEAT_NAME ]]; then
-            echo -e "${BROWN}$FEAT_NAME${NC} ${RED}NOT marked ready for${NC} ${PURPLE}$ENVIRONMENT${NC} ${BROWN}$OBJECT${NC} ${RED}will be ignored.${NC}"
+            #echo -e "${BROWN}$FEAT_NAME${NC} ${RED}NOT marked ready for${NC} ${PURPLE}$ENVIRONMENT${NC} ${BROWN}$OBJECT${NC} ${RED}will be ignored.${NC}"
             echo "$OBJECT" "$OBJECT.ignore"
             #mv "$OBJECT" "$OBJECT.ignore"
         fi
