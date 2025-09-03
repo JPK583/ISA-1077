@@ -1,4 +1,4 @@
-name: block-pipline
+name: llm-block-pipline
 
 on:
   workflow_dispatch:
@@ -22,12 +22,12 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Make verify script executable
-        run: chmod +x .github/workflows/verify_annotation.sh
+        run: chmod +x .github/workflows/llm_verify_annotation.sh
 
       - name: Verify annotations and collect ready folders
         id: verify
         run: |
-          .github/workflows/verify_annotation.sh "${{ inputs.target_enviornment }}"
+          .github/workflows/llm_verify_annotation.sh "${{ inputs.target_enviornment }}"
           echo "READY_LIST=.tmp/ready_folders.txt" >> $GITHUB_ENV
 
       # Build a .octoignore so Octopus won't package these folders
