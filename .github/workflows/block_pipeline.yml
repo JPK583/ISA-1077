@@ -27,7 +27,7 @@ jobs:
         run: git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
       - name: Stage changes
         run: git add --all
-      #- name: Commit changes
-      #  run: git commit -m "Exlcuded files not associated with a pipeline ready for prod."
-      #- name: Push origin
-      #  run: git push -u origin
+      - name: Commit changes
+        run: git commit -m "Exlcuded files not associated with a pipeline ready for prod."
+      - name: Push origin
+        run: git push -u origin
