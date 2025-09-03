@@ -17,7 +17,7 @@ mkdir -p "${OUT_DIR}"
 READY_LIST="${OUT_DIR}/ready_folders.txt"
 > "${READY_LIST}"
 
-color() { :; } # no-op for CI logs; keep simple
+#color() { :; } # no-op for CI logs; keep simple
 
 # Helper: safe folder token from a JSON file (pipeline/dataset/dataflow)
 get_folder_token() {
@@ -40,12 +40,16 @@ shopt -s nullglob
 
 if [[ -d "${PIPE_DIR}" ]]; then
   for f in "${PIPE_DIR}"/*.json; do
+    echo "f: $f" #added this -Joe
     # Check annotations array presence
     anno_present="$(jq -r '.properties | has("annotations")' "${f}")"
     if [[ "${anno_present}" == "true" ]]; then
+      echo "annotation present." #added this -Joe
       contains_env="$(jq --arg env "${ENVIRONMENT}" -r '.properties.annotations | contains([$env])' "${f}")"
       if [[ "${contains_env}" == "false" ]]; then #changed this to exclude anything which doesn't match -Joe
+        echo "Enviornment NOT present." #added this -Joe
         folder_token="$(get_folder_token "${f}")"
+        echo "folder token: $folder_token" #added this -Joe
         ready_folders["${folder_token}"]=1
       fi
     fi

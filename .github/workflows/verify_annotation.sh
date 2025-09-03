@@ -11,14 +11,13 @@ NC='\033[0m'
 
 cd "pipeline"
 
-echo -e "Checking pipeline file for ${PURPLE}$ENVIRONMENT${NC}."
+echo -e "Checking ${PURPLE}pipeline${NC} file for ${PURPLE}$ENVIRONMENT${NC} annotation."
 
 for OBJECT in *.json; do
     ANNO_PRESENT="$(jq '.properties | has("annotations")' "$OBJECT")"
     if [ "$ANNO_PRESENT" == "true" ]; then
         ENV_PRESENT="$(jq --arg env "$ENVIRONMENT" '.properties.annotations | contains([$env])' "$OBJECT")"
         if [ "$ENV_PRESENT" == "false" ]; then
-            #echo -e "${PURPLE}$ENVIRONMENT${NC} ${RED}NOT${NC} present in ${BROWN}$OBJECT${NC}. ${BROWN}$OBJECT${NC} it will be ignored."
             echo -e "${BROWN}$OBJECT${NC} ${RED}NOT annotated as ready for${NC} ${PURPLE}$ENVIRONMENT${NC}${RED}.${NC}"
             echo -e "${RED}This pipeline and any other item which shares it's name or is included in a folder which does will be ignored.${NC}"
             FEAT_ARRAY+=("$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\"")
@@ -57,7 +56,6 @@ for FOLDER in "${FOLDER_ARRAY[@]}"; do
             FEAT_NAME="$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\""
             echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} located within ${BROWN}$FEAT_NAME${NC}."
         else
-            #FEAT_NAME="$(jq '.name' "$OBJECT" | cut -d '/' -f 1)"
             FEAT_NAME=$OBJECT
             echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} ${RED}NOT${NC} ${YELLOW}present in a folder${NC}. ${BROWN}$FEAT_NAME${NC} ${YELLOW}will be used instead.${NC}"
         fi
