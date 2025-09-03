@@ -19,19 +19,8 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y jq
       - name: Give permissions
         run: chmod +x .github/workflows/verify_annotation.sh
-        #The code should look for ANY annotation in a pipeline. 
-        #IF it finds it, store the FOLDER name. 
-        #Then iterate all matching folder names across datasets 
-        #and data flows. What we do next is an open question. 
-        #Delete, mark the folder with something for 
-        #git actions to ignore
-
-        #Step 1 go to pipeline folder
       - name: Verify which features have annotations
         run: .github/workflows/verify_annotation.sh ${{ inputs.target_enviornment }}
-        #Step 2 Iterate through folders and or files (THEY SHOULD BE FOLDERS BUT JUST HAVE A FAILSAFE)
-        #Step 3 Go into each folder run script to check annotations, if proper enviornment annotation not present IN ANY PIPELINE, store FOLDER (or maybe file) name.
-        #Step 4 add .ignore to any any folder which shares the name.
       - name: Set user
         run: git config --global user.name "${{ github.actor }}"
       - name: Set email
