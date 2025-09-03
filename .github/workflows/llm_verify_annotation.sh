@@ -44,7 +44,7 @@ if [[ -d "${PIPE_DIR}" ]]; then
     anno_present="$(jq -r '.properties | has("annotations")' "${f}")"
     if [[ "${anno_present}" == "true" ]]; then
       contains_env="$(jq --arg env "${ENVIRONMENT}" -r '.properties.annotations | contains([$env])' "${f}")"
-      if [[ "${contains_env}" == "true" ]]; then
+      if [[ "${contains_env}" == "false" ]]; then #changed this to exclude anything which doesn't match -Joe
         folder_token="$(get_folder_token "${f}")"
         ready_folders["${folder_token}"]=1
       fi
