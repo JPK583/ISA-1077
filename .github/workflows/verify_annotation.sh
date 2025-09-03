@@ -62,7 +62,7 @@ for FOLDER in "${FOLDER_ARRAY[@]}"; do
         echo "FEAT:$FEAT_NAME, OBJECT:$OBJECT"
         if [[ ${FEAT_ARRAY[@]} =~ $FEAT_NAME ]]; then
             #echo -e "${BROWN}$FEAT_NAME${NC} ${RED}NOT marked ready for${NC} ${PURPLE}$ENVIRONMENT${NC} ${BROWN}$OBJECT${NC} ${RED}will be ignored.${NC}"
-            echo "$OBJECT" "$OBJECT.ignore"
+            echo "removing:" "$OBJECT" "$OBJECT.ignore"
             #mv "$OBJECT" "$OBJECT.ignore"
         fi
     done
