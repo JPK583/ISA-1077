@@ -21,13 +21,13 @@ for OBJECT in *.json; do
             echo -e "${BROWN}$OBJECT${NC} ${RED}NOT annotated as ready for${NC} ${PURPLE}$ENVIRONMENT${NC}${RED}.${NC}"
             echo -e "${RED}This pipeline and any other item which shares it's name or is included in a folder which does will be ignored.${NC}"
             FEAT_ARRAY+=("$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\"")
-            mv "$OBJECT" "$OBJECT.ignore"
+            #mv "$OBJECT" "$OBJECT.ignore"
         fi
     else
         FEAT_ARRAY+=("$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\"")
         echo -e "${RED}Annotations field not present for${NC} ${BROWN}$OBJECT${NC}${RED}.${NC}"
         echo -e "${BROWN}$OBJECT${NC} ${YELLOW}will be infered as not in${NC} ${PURPLE}$ENVIRONMENT${NC}${YELLOW} and ignored.${NC}"
-        mv "$OBJECT" "$OBJECT.ignore"
+        #mv "$OBJECT" "$OBJECT.ignore"
     fi
 done
 cd ..
@@ -49,7 +49,7 @@ echo
 
 for FOLDER in "${FOLDER_ARRAY[@]}"; do
     cd $FOLDER
-    echo -e "Checking: ${PURPLE}$FOLDER${NC}."
+    #echo -e "Checking: ${PURPLE}$FOLDER${NC}."
     for OBJECT in *.json; do
         FOLDER_PRESENT="$(jq '.properties | has("folder")' "$OBJECT")"
         if [ "$FOLDER_PRESENT" == "true" ]; then
@@ -60,8 +60,8 @@ for FOLDER in "${FOLDER_ARRAY[@]}"; do
             echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} ${RED}NOT${NC} ${YELLOW}present in a folder${NC}. ${BROWN}$FEAT_NAME${NC} ${YELLOW}will be used instead.${NC}"
         fi
         if [[ ${FEAT_ARRAY[@]} =~ $FEAT_NAME ]]; then
-            echo -e "${BROWN}$FEAT_NAME${NC} ${RED}NOT marked ready for${NC} ${PURPLE}$ENVIRONMENT${NC} ${RED}it will be ignored.${NC}"
-            mv "$FEAT_NAME" "$FEAT_NAME.ignore"
+            echo -e "${BROWN}$FEAT_NAME${NC} ${RED}NOT marked ready for${NC} ${PURPLE}$ENVIRONMENT${NC} ${BROWN}$OBJECT${NC} ${RED}will be ignored.${NC}"
+            mv "$OBJECT" "$OBJECT.ignore"
         fi
     done
     cd ..
