@@ -56,7 +56,7 @@ for FOLDER in "${FOLDER_ARRAY[@]}"; do
             FEAT_NAME="$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\""
             #echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} located within ${BROWN}$FEAT_NAME${NC}."
         else
-            FEAT_NAME=$OBJECT
+            FEAT_NAME=$(basename "$OBJECT" .json)
             #echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} ${RED}NOT${NC} ${YELLOW}present in a folder${NC}. ${BROWN}$FEAT_NAME${NC} ${YELLOW}will be used instead.${NC}"
         fi
         if [[ ${FEAT_ARRAY[@]} =~ $FEAT_NAME ]]; then
