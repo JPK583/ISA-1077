@@ -15,8 +15,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Download jq library
-        run: sudo apt-get install jq
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
       - name: Give permissions
         run: chmod +x .github/workflows/verify_annotation.sh
         #The code should look for ANY annotation in a pipeline. 
@@ -36,9 +36,9 @@ jobs:
         run: git config --global user.name "${{ github.actor }}"
       - name: Set email
         run: git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-      #- name: Stage changes
-      #  run: git add --all
-      #- name: Commit changes
-      #  run: git commit -m "Removed any unallowed pipelines."
-      #- name: Push origin
-      #  run: git push -u origin #INSERT NAME OF CURRENT BRANCH
+      - name: Stage changes
+        run: git add --all
+      - name: Commit changes
+        run: git commit -m "Exlcuded files not associated with a pipeline ready for prod."
+      - name: Push origin
+        run: git push -u origin

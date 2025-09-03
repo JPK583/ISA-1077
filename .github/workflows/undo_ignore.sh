@@ -21,7 +21,6 @@ for FOLDER in "${FOLDER_ARRAY[@]}"; do
     echo -e "Checking: ${PURPLE}$FOLDER${NC}."
     for OBJECT in *.ignore; do
         NO_IGNORE=$(basename "$OBJECT" .ignore)
-        #echo $NO_IGNORE
         mv "$OBJECT" "$NO_IGNORE"
     done
     cd ..
