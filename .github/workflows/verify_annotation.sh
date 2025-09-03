@@ -59,9 +59,9 @@ for FOLDER in "${FOLDER_ARRAY[@]}"; do
             FEAT_NAME=$OBJECT
             #echo -e "${PURPLE}$FOLDER${NC}: ${BROWN}$OBJECT${NC} ${RED}NOT${NC} ${YELLOW}present in a folder${NC}. ${BROWN}$FEAT_NAME${NC} ${YELLOW}will be used instead.${NC}"
         fi
-        echo "FEAT:$FEAT_NAME, OBJECT:$OBJECT"
         if [[ ${FEAT_ARRAY[@]} =~ $FEAT_NAME ]]; then
             #echo -e "${BROWN}$FEAT_NAME${NC} ${RED}NOT marked ready for${NC} ${PURPLE}$ENVIRONMENT${NC} ${BROWN}$OBJECT${NC} ${RED}will be ignored.${NC}"
+            echo "FEAT:$FEAT_NAME, OBJECT:$OBJECT"
             echo "removing:" "$OBJECT" "$OBJECT.ignore"
             #mv "$OBJECT" "$OBJECT.ignore"
         fi
