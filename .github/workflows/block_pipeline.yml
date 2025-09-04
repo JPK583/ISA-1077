@@ -29,5 +29,6 @@ jobs:
         run: git add --all
       - name: Commit changes
         run: git commit -m "Exlcuded files not associated with a pipeline ready for prod."
-      - name: Push origin
-        run: git push -u origin
+      #Temporarily removing this so there aren't errors since nothing will change in the repo
+      #- name: Push origin
+      #  run: git push -u origin
