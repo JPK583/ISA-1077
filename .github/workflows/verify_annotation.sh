@@ -29,13 +29,15 @@ for OBJECT in *.json; do
             echo -e "${BROWN}$OBJECT${NC} ${RED}NOT annotated as ready for${NC} ${PURPLE}$ENVIRONMENT${NC}${RED}.${NC}"
             echo -e "${RED}This pipeline and any other item which shares it's name or is included in a folder which does will be ignored.${NC}"
             FEAT_ARRAY+=("$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\"")
-            mv "$OBJECT" "$OBJECT.ignore"
+            #mv "$OBJECT" "$OBJECT.ignore"
+            echo mv "$OBJECT" "$OBJECT.ignore"
         fi
     else
         FEAT_ARRAY+=("$(jq '.properties.folder.name' "$OBJECT" | cut -d '/' -f 1)\"")
         echo -e "${RED}Annotations field not present for${NC} ${BROWN}$OBJECT${NC}${RED}.${NC}"
         echo -e "${BROWN}$OBJECT${NC} ${YELLOW}will be infered as not in${NC} ${PURPLE}$ENVIRONMENT${NC}${YELLOW} and ignored.${NC}"
-        mv "$OBJECT" "$OBJECT.ignore"
+        #mv "$OBJECT" "$OBJECT.ignore"
+        echo mv "$OBJECT" "$OBJECT.ignore"
     fi
 done
 cd ..
@@ -69,7 +71,8 @@ for FOLDER in "${FOLDER_ARRAY[@]}"; do
         fi
         if [[ ${FEAT_ARRAY[@]} =~ $FEAT_NAME ]]; then
             echo -e "${BROWN}$FEAT_NAME${NC} ${RED}NOT marked ready for${NC} ${PURPLE}$ENVIRONMENT${NC} ${BROWN}$OBJECT${NC} ${RED}will be ignored.${NC}"
-            mv "$OBJECT" "$OBJECT.ignore"
+            #mv "$OBJECT" "$OBJECT.ignore"
+            echo mv "$OBJECT" "$OBJECT.ignore"
         fi
     done
     cd ..
