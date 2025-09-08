@@ -90,7 +90,7 @@
 			"name": "dir1/subdir1"
 		},
 		"annotations": [
-			"dev"
+			"APPROVED"
 		]
 	}
 }
