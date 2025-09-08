@@ -6,7 +6,7 @@ on:
         description: "TEMP desired enviornment project will be promoted to."
         type: string
         required: true
-        #TODO: REMOVE THIS CHOICE MAKE IT QA
+        default: "APPROVED"
 jobs:
   check-enviornment:
     runs-on: ubuntu-latest

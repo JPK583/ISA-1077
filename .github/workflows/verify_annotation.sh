@@ -1,6 +1,5 @@
 #!/bin/bash
 
-#TODO: CHANGE THIS TO JUST QA LATER
 ENVIRONMENT=$1
 
 #List of names for features which contain proper annotation.
