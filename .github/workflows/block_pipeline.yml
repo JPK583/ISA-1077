@@ -14,7 +14,7 @@ jobs:
       - name: Give permissions
         run: chmod +x .github/workflows/verify_annotation.sh
       - name: Verify which features have annotations
-        run: .github/workflows/verify_annotation.sh APPROVED
+        run: .github/workflows/verify_annotation.sh Approved
       - name: Set user
         run: git config --global user.name "${{ github.actor }}"
       - name: Set email
